@@ -13,7 +13,7 @@ nnoremap ` '
 
 
 " <C-e> and <C-y> scroll the viewport a single line. I like to ratchet this up:
-nnoremap <C-e> 3<C-e>
+"nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
 " With a map leader it's possible to do extra key combinations
@@ -438,7 +438,7 @@ syntax on
 
 " Bash like keys for the command line
 cnoremap <C-A>      <Home>
-cnoremap <C-E>      <End>
+"cnoremap <C-E>      <End>
 cnoremap <C-K>      <C-U>
 
 cnoremap <C-P> <Up>
