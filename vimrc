@@ -21,17 +21,6 @@ nnoremap <C-y> 3<C-y>
 let mapleader = ","
 let g:mapleader = ","
 
-"{{{Auto Commands
-
-
-" reload vimrc on update  {{{2
-"autocmd BufWritePost .vimrc source %
-
-" Automatically cd into the directory that the file is in
-autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
-
-" Remove any trailing whitespace that is in the file
-autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
 " Tell vim to remember certain things when we exit
 "  '10  :  marks will be remembered for up to 10 previously edited files
@@ -40,6 +29,19 @@ autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
 set viminfo='10,\"100,:20,%,n~/.viminfo
+
+"{{{Auto Commands
+
+" reload vimrc on update  {{{2
+"autocmd BufWritePost .vimrc source %
+
+" Automatically cd into the directory that the file is in
+autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
+" Or manually switch to directory of current file using ,cd
+"map <Leader>cd :cd %:p:h<CR>
+
+" Remove any trailing whitespace that is in the file
+autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
 function! ResCur()
   if line("'\"") <= line("$")
@@ -52,8 +54,6 @@ augroup resCur
   autocmd!
   autocmd BufWinEnter * call ResCur()
 augroup END
-
-
 
 "}}}
 
@@ -78,6 +78,9 @@ set grepprg=grep\ -nH\ $*
 set autoindent
 set si "Smart indet
 "set ruler
+
+" autoindent entire file
+map <Leader>i gg=G
 
 " Spaces are better than a tab character
 set expandtab
@@ -209,21 +212,21 @@ highlight MatchParen ctermbg=4
 
 
 "g:solarized_termcolors= 16 | 256
-let g:solarized_termcolors= 16
+"let g:solarized_termcolors= 16
 "g:solarized_termtrans = 0 | 1
 "g:solarized_degrade = 0 | 1
 "g:solarized_bold = 1 | 0
-let g:solarized_bold = 1
+"let g:solarized_bold = 1
 "g:solarized_underline = 1 | 0
-let g:solarized_underline = 1
+"let g:solarized_underline = 1
 "g:solarized_italic = 1 | 0
 "g:solarized_contrast = "normal"| "high" or "low"
 "g:solarized_visibility= "normal"| "high" or "low"
-let g:solarized_visibility= "high"
+"let g:solarized_visibility= "high"
 "let g:solarized_termcolors=256
-let g:solarized_contrast="high"
+"let g:solarized_contrast="high"
 "set term=xterm-256color
-"set background=dark
+set background=dark
 "colorscheme solarized
 "highlight LineNr ctermfg=darkgrey
 "set cursorline                  " highlight current line
@@ -251,6 +254,10 @@ set statusline+=\ \ %=                        " Right align everything after thi
 set statusline+=\ Line:\ %l/%L                " Current line number/total lines
 set statusline+=\ [%p%%]                      " percentage
 set statusline+=\ column:%c                   " cursor column
+"set statusline=%(%F%m%r%h%w\%)%=%([TYPE=%Y]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]%)
+" }}}"
+
+"{{{ Functions
 
 function! CurDir()
     let curdir = substitute(getcwd(), '/Users/deepak/', "~/", "g")
@@ -264,21 +271,6 @@ function! HasPaste()
         return ''
     endif
 endfunction
-
-
-" }}}
-
-"{{{ Functions
-
-"{{{ Open URL in browser
-
-function! Browser ()
-   let line = getline (".")
-   let line = matchstr (line, "http[^   ]*")
-   exec "!konqueror ".line
-endfunction
-
-"}}}
 
 "{{{Theme Rotating
 let themeindex=0
@@ -314,35 +306,9 @@ func! Paste_on_off()
 endfunc
 "}}}
 
-"{{{ Todo List Mode
-
-function! TodoListMode()
-   e ~/.todo.otl
-   Calendar
-   wincmd l
-   set foldlevel=1
-   tabnew ~/.notes.txt
-   tabfirst
-   " or 'norm! zMzr'
-endfunction
-
-"}}}
-
 "}}}
 
 "{{{ Mappings
-
-" Open Url on this line with the browser \w
-map <Leader>w :call Browser ()<CR>
-
-" Open the Project Plugin <F2>
-nnoremap <silent> <F2> :Project<CR>
-
-" Open the Project Plugin
-nnoremap <silent> <Leader>pal  :Project .vimproject<CR>
-
-" TODO Mode
-nnoremap <silent> <Leader>todo :execute TodoListMode()<CR>
 
 " Open the TagList Plugin <F3>
 nnoremap <silent> <F3> :Tlist<CR>
@@ -363,7 +329,6 @@ nnoremap <silent> <M-j> :tabnew<CR>
 :imap <C-j> <Esc>:tabprevious<CR>
 :nmap <C-k> :tabnext<CR>
 :imap <C-k> <Esc>:tabnext<CR>
-
 
 " Rotate Color Scheme <F8>
 nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
@@ -403,21 +368,9 @@ nnoremap <space> za
 map N Nzz
 map n nzz
 
-" Testing
-set completeopt=longest,menuone,preview
-
-inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
-inoremap <expr> <c-n> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
-inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
-
 " Swap ; and :  Convenient.
 "nnoremap ; :
 "nnoremap : ;
-
-" Fix email paragraphs
-nnoremap <leader>par :%s/^>$//<CR>
-
-"ly$O#{{{ "lpjjj_%A#}}}jjzajj
 
 "}}}
 
@@ -435,14 +388,6 @@ let g:Tex_ViewRule_pdf = "kpdf"
 
 filetype plugin indent on
 syntax on
-
-" Bash like keys for the command line
-cnoremap <C-A>      <Home>
-"cnoremap <C-E>      <End>
-cnoremap <C-K>      <C-U>
-
-cnoremap <C-P> <Up>
-cnoremap <C-N> <Down>
 
 "split panes
 map :vs :vsplit<cr><c-w>l
@@ -493,4 +438,60 @@ nmap <silent> ,ff :FufFile<cr>
 nmap <silent> ,fc :FufMruCmd<cr>
 nmap <silent> ,fm :FufMruFile<cr>
 nmap <silent> ,fp :FufFile ~/git/*<cr>
+
+
+"=======================================================
+" Setting my own tabline. See
+" http://eseth.org/filez/prefs/vimrc
+"=======================================================
+set showtabline=1
+" }}}
+" MyTabLine {{{
+" This is an attempt to emulate the default Vim-7 tabs as closely as possible but with numbered tabs.
+
+if exists("+showtabline")
+  function! MyTabLine()
+    let s = ''
+    for i in range(tabpagenr('$'))
+      " set up some oft-used variables
+      let tab = i + 1 " range() starts at 0
+      let winnr = tabpagewinnr(tab) " gets current window of current tab
+      let buflist = tabpagebuflist(tab) " list of buffers associated with the windows in the current tab
+      let bufnr = buflist[winnr - 1] " current buffer number
+      let bufname = bufname(bufnr) " gets the name of the current buffer in the current window of the current tab
+
+      let s .= '%' . tab . 'T' " start a tab
+      let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#') " if this tab is the current tab...set the right highlighting
+      let s .= ' ' . tab " current tab number
+      let n = tabpagewinnr(tab,'$') " get the number of windows in the current tab
+      if n > 1
+        let s .= ':' . n " if there's more than one, add a colon and display the count
+      endif
+      let bufmodified = getbufvar(bufnr, "&mod")
+      if bufmodified
+        let s .= ' +'
+      endif
+      if bufname != ''
+        let s .= ' ' . pathshorten(bufname) . ' ' " outputs the one-letter-path shorthand & filename
+      else
+        let s .= ' [No Name] '
+      endif
+    endfor
+    let s .= '%#TabLineFill#' " blank highlighting between the tabs and the righthand close 'X'
+    let s .= '%T' " resets tab page number?
+    let s .= '%=' " seperate left-aligned from right-aligned
+    let s .= '%#TabLine#' " set highlight for the 'X' below
+    let s .= '%999XX' " places an 'X' at the far-right
+    return s
+  endfunction
+  set tabline=%!MyTabLine()
+endif
+
+"============================================================
+" Convenience mappings for ctags from
+" http://stackoverflow.com/questions/563616/vimctags-tips-and-tricks
+"============================================================
+set tags=./tags;/
+"map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+"map <C-/> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
