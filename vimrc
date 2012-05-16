@@ -1,5 +1,6 @@
-"Enable Pathogen
+" Start by having Pathogen load any external bundles
 call pathogen#infect()
+call pathogen#helptags()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -246,10 +247,11 @@ set laststatus=2
 "set statusline+=%=                           " right align remainder
 "set statusline+=%-14(%l,%c%V%)               " line, character
 "set statusline+=%<%P                         " file position
-"set statusline=
-set statusline=\ %{HasPaste()}                " Mode
-set statusline+=%F%m%r%h\ %w                  " File name
+set statusline=
+set statusline+=\ \ %F%m%r%h\ %w                  " File name
 set statusline+=\ \ CWD:\ %r%{CurDir()}%h     " current directory
+set statusline+=\ %#error#%{HasPaste()}%*                " Mode
+set statusline+=%{fugitive#statusline()}
 set statusline+=\ \ %=                        " Right align everything after this
 set statusline+=\ Line:\ %l/%L                " Current line number/total lines
 set statusline+=\ [%p%%]                      " percentage
@@ -266,7 +268,7 @@ endfunction
 
 function! HasPaste()
     if &paste
-        return 'PASTE MODE  '
+        return '[PASTE MODE]'
     else
         return ''
     endif
@@ -494,4 +496,31 @@ endif
 set tags=./tags;/
 "map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "map <C-/> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+
+
+" Shortcut to rapidly toggle `set list`
+nmap <Leader>l :set list!<CR>
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" Open a vertical/horizontal split, switch over to it
+nnoremap <leader>s <C-w>s<C-w>j
+nnoremap <leader>v <C-w>v<C-w>l
+
+" Split navigation
+"nnoremap <C-h> <C-w>h
+"nnoremap <C-j> <C-w>j
+"nnoremap <C-k> <C-w>k
+"nnoremap <C-l> <C-w>l
+
+" Hit jj to exit insert mode
+imap jj <Esc>
+
+" Enable TAB indent and SHIFT-TAB unindent
+vnoremap <silent> <TAB> >gv
+vnoremap <silent> <S-TAB> <gv
 
