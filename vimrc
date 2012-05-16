@@ -148,8 +148,13 @@ set whichwrap+=<,>,h,l
 
 " Set fixed path for tmp and backup files
 set backup
-set backupdir=~/.vim/backup,~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim/tmp,~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+if has('win32') || has('win64')
+   set backupdir=c:/temp
+   set directory=c:/temp
+else
+   set backupdir=~/.vim/backup,~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+   set directory=~/.vim/tmp,~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+endif
 
 " suffix a timestamp to backup files so we have multiple versions of it.
 "au BufWritePre * let &bex = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
