@@ -233,7 +233,7 @@ highlight MatchParen ctermbg=4
 "let g:solarized_contrast="high"
 "set term=xterm-256color
 set background=dark
-"colorscheme solarized
+colorscheme solarized
 "highlight LineNr ctermfg=darkgrey
 "set cursorline                  " highlight current line
 
