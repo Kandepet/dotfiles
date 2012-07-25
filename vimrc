@@ -160,7 +160,7 @@ endif
 "au BufWritePre * let &bex = '-' . strftime("%Y%m%d-%H%M%S") . '.vimbackup'
 
 " highlight the current line
-set cul
+" set cul
 
 " Adjust current lines color
 hi CursorLine term=none cterm=none ctermbg=5
@@ -330,12 +330,12 @@ nnoremap <silent> <C-A-Left> :tabprevious<CR>
 nnoremap <silent> <M-j> :tabnew<CR>
 
 " tab navigation
-:nmap <C-t> :tabnew<CR>
-:imap <C-t> <Esc>:tabnew<CR>
-:nmap <C-j> :tabprevious<CR>
-:imap <C-j> <Esc>:tabprevious<CR>
-:nmap <C-k> :tabnext<CR>
-:imap <C-k> <Esc>:tabnext<CR>
+":nmap <C-t> :tabnew<CR>
+":imap <C-t> <Esc>:tabnew<CR>
+":nmap <C-j> :tabprevious<CR>
+":imap <C-j> <Esc>:tabprevious<CR>
+":nmap <C-k> :tabnext<CR>
+":imap <C-k> <Esc>:tabnext<CR>
 
 " Rotate Color Scheme <F8>
 nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
